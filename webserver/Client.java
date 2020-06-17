@@ -26,14 +26,12 @@ public class Client extends Thread {
     private Socket client;
     private InputStream input = null;
     private OutputStream output = null;
-    private boolean isGetMethod = false;
-    private boolean isPostMethod = false;
     private String infor;
 
     public Client(Socket client) {
         this.client = client;
         if (this.client != null) {
-            System.out.println("Connected successfully\n");
+            System.out.printf( client.getPort() + " Connected successfully\n");
         }
 
         try {
@@ -51,7 +49,7 @@ public class Client extends Thread {
         try {
 
             while (client.isBound() && !client.isClosed()) {
-                isGetMethod = getRequest();
+                boolean isGetMethod = getRequest();
                 String response = null;
                 RequestHandler requestHandler = new RequestHandler(infor);
                 
@@ -84,23 +82,7 @@ public class Client extends Thread {
         }
     }
 
-    void writeFile(int c) {
-        String nameFile = "log.txt";
-        try {
-            FileWriter fw = new FileWriter(nameFile, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter out = new PrintWriter(bw);
-
-            out.print((char) c);
-
-            out.close();
-            bw.close();
-            fw.close();
-
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+   
 
     boolean getRequest() throws IOException {
 

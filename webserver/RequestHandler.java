@@ -15,16 +15,8 @@ public class RequestHandler {
 
     public RequestHandler(String data) {
         this.data = data;
-        //verifyRequest();
+       
     }
-
-    /*
-    public String verifyRequest() {
-        String methodInfo = request.split("\r\n", 0)[0];
-        String method = methodInfo.split("\\/", 0)[0];
-
-        return method;
-    }*/
 
     
     public String doGet() {
@@ -37,24 +29,23 @@ public class RequestHandler {
         return response;
     }
 
+    //Xử lý mật khẩu ở đây
     public String doPost() {
         String response = null;
+        
+        boolean isAuthenticated = false;
+        
+        // Xử Lý 
+        
+        
+        
+        if(isAuthenticated){
+            response = new ResponseHandler().getInfor();
+        }else
+            response = new ResponseHandler().getError();
         
         return response;
     }
 
-    /*
-    public String handleRequest() {
-
-        String response = null;
-
-        //String method = verifyRequest();
-        if (method.equals("GET ")) {
-            response = doGet();
-        } else if (method.equals("POST ")) {
-            doPost(request);
-        }
-
-        return response;
-    }*/
+   
 }

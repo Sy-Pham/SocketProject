@@ -11,6 +11,7 @@ package webserver;
  */
 public class ResponseHandler {
     
+    //demo login
     public String getResponse(){
         String htmlContent = "<html><body>"
                 + "<h1>Login</h1>"
@@ -27,9 +28,32 @@ public class ResponseHandler {
         return response;
     }
     
+    //doc file index.html
     public String getIndex(){
+        // demo login --> viet lai
         String response = getResponse();
         
         return response;
+    }
+    
+    //doc file infor.html
+    public String getInfor(){
+        String response = null;
+        
+        return response;
+    }
+    
+    //doc file 404.html
+    public String getError(){
+        String response = null;
+        
+        return response;
+    }
+    
+    //doc file html
+    public String readFileHTML(String fileName){
+        String content = null;
+        
+        return content;
     }
 }
