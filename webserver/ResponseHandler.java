@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 public class ResponseHandler {
     public String getResponse(String htmlContent, int responseCode) {
         final String CRLF = "\r\n";
-        return "HTTP/1.1 200 OK" + CRLF +   // status line
+        return "HTTP/1.1 " + responseCode    + CRLF +   // status line
                         "Content-Length: " + htmlContent.getBytes().length + CRLF + //header
                         //"Location: /infor.html" + CRLF +
                         CRLF +
@@ -27,20 +27,45 @@ public class ResponseHandler {
     public String getIndex(){
         String content = readFileHTML("src/index.html");
         return getResponse(content, 200);
+        
     }
     
     //doc file infor.html
     public String getInformation(){
         //303
         String content = readFileHTML("src/info.html");
-        return getResponse(content,303);
+        //return getResponse(content,303);
+        final String CRLF = "\r\n";
+        return "HTTP/1.1 303"     + CRLF +   // status line
+                        "Content-Length: " + content.getBytes().length + CRLF + //header
+                        "Location: /infor.html" + CRLF +
+                        CRLF +
+                        content;
+    }
+    
+    public String getInformation(boolean  b){
+        //303
+        String content = readFileHTML("src/info.html");
+        return getResponse(content,200);
+        
     }
     
     //doc file 404.html
     public String getError(){
         //404
         String content = readFileHTML("src/404.html");
-        return getResponse(content,404);
+         final String CRLF = "\r\n";
+        return "HTTP/1.1 303"     + CRLF +   // status line
+                        "Content-Length: " + content.getBytes().length + CRLF + //header
+                        "Location: /404.html" + CRLF +
+                        CRLF +
+                        content;
+    }
+    
+    public String getError(boolean  b){
+        //404
+        String content = readFileHTML("src/404.html");
+        return getResponse(content,200);
     }
     
     //doc file html

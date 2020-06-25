@@ -9,7 +9,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,8 +62,12 @@ public class Client extends Thread {
 
                 if (response != null) {
 
-
-                    System.out.println(output);
+                   
+                    try(PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, "UTF-8"))){
+                      
+                        writer.print(response);
+                        
+                    }
                 }
 
             }
@@ -92,6 +100,7 @@ public class Client extends Thread {
             String[] startLine = data.split(" /", 0);
             String method = startLine[0];
             if (method.equals("GET")) {
+               
                 information = data;
                 isGetMethod = true;
 

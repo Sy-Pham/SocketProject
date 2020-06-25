@@ -22,6 +22,10 @@ public class RequestHandler {
         String method = data.split(" ", 0)[1];
         if(method.equals("/index.html"))
             response =  new ResponseHandler().getIndex();
+        else if(method.equals("/infor.html"))
+            response = new ResponseHandler().getInformation(true);
+        else if(method.equals("/404.html"))
+            response = new ResponseHandler().getError(true);
         return response;
     }
 
