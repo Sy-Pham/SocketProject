@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package webserver;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,17 +19,18 @@ import java.util.logging.Logger;
  */
 public class Client extends Thread {
 
-    private Socket client;
+    private final Socket client;
     private InputStream input = null;
     private OutputStream output = null;
-    private String infor;
+    private String information;
 
     public Client(Socket client) {
         this.client = client;
         if (this.client != null) {
-            System.out.printf( client.getPort() + " Connected successfully\n");
+            System.out.print( client.getPort() + " Connected successfully\n");
+        } else {
+            return;
         }
-
         try {
             input = client.getInputStream();
             output = client.getOutputStream();
@@ -51,7 +48,7 @@ public class Client extends Thread {
             while (client.isBound() && !client.isClosed()) {
                 boolean isGetMethod = getRequest();
                 String response = null;
-                RequestHandler requestHandler = new RequestHandler(infor);
+                RequestHandler requestHandler = new RequestHandler(information);
                 
                 if (isGetMethod) {
                     response = requestHandler.doGet();
@@ -60,8 +57,9 @@ public class Client extends Thread {
                 }
 
                 if (response != null) {
-                    output.write(response.getBytes());
 
+
+                    System.out.println(output);
                 }
 
             }
@@ -70,13 +68,10 @@ public class Client extends Thread {
             e.printStackTrace();
         } finally {
             System.out.printf("port %d Disconnect\n", client.getPort());
-            if (client != null) {
-                try {
-                    client.close();
-
-                } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                client.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
@@ -97,8 +92,9 @@ public class Client extends Thread {
             String[] startLine = data.split(" /", 0);
             String method = startLine[0];
             if (method.equals("GET")) {
-                infor = data;
+                information = data;
                 isGetMethod = true;
+
             }
 
             if (!isGetMethod) {
@@ -109,18 +105,15 @@ public class Client extends Thread {
             }
 
             if (data.isEmpty()) {
-                if (isGetMethod) {
-                    break;
-                } else {
-                    
+                if (!isGetMethod) {
                     StringBuilder str = new StringBuilder();
                     for (int i = 0; i < length; i++) {
-                        str.append((char)reader.read());
+                        str.append((char) reader.read());
                     }
-                    infor = str.toString();
-                    System.out.println(infor);
-                    break;
-                } 
+                    information = str.toString();
+                    System.out.println(information);
+                }
+                break;
             }
 
         }

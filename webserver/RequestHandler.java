@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package webserver;
 
 /**
  *
@@ -11,13 +10,11 @@ package webserver;
  */
 public class RequestHandler {
 
-    private String data;
+    private final String data;
 
     public RequestHandler(String data) {
         this.data = data;
-       
     }
-
     
     public String doGet() {
        
@@ -25,7 +22,6 @@ public class RequestHandler {
         String method = data.split(" ", 0)[1];
         if(method.equals("/index.html"))
             response =  new ResponseHandler().getIndex();
-        
         return response;
     }
 
@@ -35,17 +31,25 @@ public class RequestHandler {
         
         boolean isAuthenticated = false;
         
-        // Xử Lý 
-        
-        
-        
+        // Xử Lý
+        int beginIndexUsn = data.indexOf("=") + 1;
+        int endIndexUsn = data.indexOf("&");
+        String username = data.substring(beginIndexUsn, endIndexUsn);
+        int beginIndexPw = data.indexOf("=", endIndexUsn) + 1;
+        int endIndexPw = data.length();
+        String password = data.substring(beginIndexPw, endIndexPw);
+
+        isAuthenticated = login(username,password);
         if(isAuthenticated){
-            response = new ResponseHandler().getInfor();
-        }else
+            response = new ResponseHandler().getInformation();
+        }else {
             response = new ResponseHandler().getError();
-        
+        }
         return response;
     }
 
+    boolean login(String username, String password){
+        return username.equals("admin") && password.equals("admin");
+    }
    
 }

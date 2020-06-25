@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package webserver;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -12,7 +11,7 @@ import java.net.ServerSocket;
  *
  * @author Sy Pham
  */
-public class WebServer {
+public class Main {
 
     /**
      * @param args the command line arguments

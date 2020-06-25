@@ -3,57 +3,59 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package webserver;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 /**
  *
  * @author Sy Pham
  */
 public class ResponseHandler {
-    
-    //demo login
-    public String getResponse(){
-        String htmlContent = "<html><body>"
-                + "<h1>Login</h1>"
-                + "<form method=\"POST\"><input name=\"username\" action=\"/\"><input name=\"password\" type=\"password\"/><input type=\"submit\" value=\"Login\"></form>"
-                + "</body></html>";
+    public String getResponse(String htmlContent, int responseCode) {
         final String CRLF = "\r\n";
-        String response = 
-            "HTTP/1.1 200 OK" + CRLF +   // status line
-             "Content-Length: " + htmlContent.getBytes().length + CRLF + //header
-                //"Location: /infor.html" + CRLF + 
-             CRLF +
-                htmlContent;
-                
-        return response;
+        return "HTTP/1.1 200 OK" + CRLF +   // status line
+                        "Content-Length: " + htmlContent.getBytes().length + CRLF + //header
+                        //"Location: /infor.html" + CRLF +
+                        CRLF +
+                        htmlContent;
     }
     
     //doc file index.html
     public String getIndex(){
-        // demo login --> viet lai
-        String response = getResponse();
-        
-        return response;
+        String content = readFileHTML("src/index.html");
+        return getResponse(content, 200);
     }
     
     //doc file infor.html
-    public String getInfor(){
-        String response = null;
-        
-        return response;
+    public String getInformation(){
+        //303
+        String content = readFileHTML("src/info.html");
+        return getResponse(content,303);
     }
     
     //doc file 404.html
     public String getError(){
-        String response = null;
-        
-        return response;
+        //404
+        String content = readFileHTML("src/404.html");
+        return getResponse(content,404);
     }
     
     //doc file html
     public String readFileHTML(String fileName){
-        String content = null;
-        
-        return content;
+        StringBuilder content = new StringBuilder();
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
+            String line = in.readLine();
+            while (line != null) {
+                content.append(line).append("\n");
+                line = in.readLine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return content.toString();
     }
 }
