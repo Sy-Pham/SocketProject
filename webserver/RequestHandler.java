@@ -1,13 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Sy Pham
- */
 public class RequestHandler {
 
     private final String data;
@@ -25,18 +15,19 @@ public class RequestHandler {
         return response;
     }
 
-    //Xử lý mật khẩu ở đây
     public String doPost() {
         String response = null;
         
         boolean isAuthenticated = false;
-        
-        // Xử Lý
+        System.out.println(data);
         int beginIndexUsn = data.indexOf("=") + 1;
         int endIndexUsn = data.indexOf("&");
-        String username = data.substring(beginIndexUsn, endIndexUsn);
         int beginIndexPw = data.indexOf("=", endIndexUsn) + 1;
         int endIndexPw = data.length();
+//        if (beginIndexUsn == 0 || endIndexUsn == -1 || beginIndexPw == 0) {
+//            return null;
+//        }
+        String username = data.substring(beginIndexUsn, endIndexUsn);
         String password = data.substring(beginIndexPw, endIndexPw);
 
         isAuthenticated = login(username,password);
