@@ -48,7 +48,7 @@ public class Client extends Thread {
     public void run() {
 
         try {
-
+            boolean isAuthenticated = false;
             while (client.isBound() && !client.isClosed()) {
                 boolean isGetMethod = getRequest();
                 String response = null;
@@ -58,11 +58,11 @@ public class Client extends Thread {
                     response = requestHandler.doGet();
                 }else{
                     response = requestHandler.doPost();
+                    isAuthenticated = true;
                 }
 
                 if (response != null) {
-
-                   
+                 
                     try(PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, "UTF-8"))){
                       
                         writer.print(response);
