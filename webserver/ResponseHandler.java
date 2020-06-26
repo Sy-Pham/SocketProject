@@ -59,7 +59,7 @@ public class ResponseHandler {
     public String getError() {
         //404
         String content = readFileHTML("src/404.html");
-        return getResponse(content, 200);
+        return getResponse(content, 404);
     }
 
        
