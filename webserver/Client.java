@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +17,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author Sy Pham
+ */
 public class Client extends Thread {
 
     private final Socket client;
@@ -52,14 +62,12 @@ public class Client extends Thread {
 
                 if (response != null) {
 
-
                    
                     try(PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, "UTF-8"))){
                       
                         writer.print(response);
                         
                     }
-
                 }
 
             }
@@ -83,6 +91,7 @@ public class Client extends Thread {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         boolean isGetMethod = false;
+        boolean isPostMethod = false;
         int length = 0;
 
         String data = null;
@@ -111,6 +120,7 @@ public class Client extends Thread {
                         str.append((char) reader.read());
                     }
                     information = str.toString();
+                    System.out.println(information);
                 }
                 break;
             }

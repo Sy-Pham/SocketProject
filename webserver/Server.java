@@ -1,12 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author Sy Pham
+ */
 public class Server extends Thread {
-    private static final int port = 9000;
-    private static final String address = "localhost";
+    private static int port = 9000;
+    private static String address = "localhost";
     private ServerSocket server;
 
     public Server() {
