@@ -1,56 +1,48 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
-/**
- *
- * @author Sy Pham
- */
 public class ResponseHandler {
 
-    public String getResponse(String htmlContent, int responseCode) {
+    private String getResponse(String htmlContent, int statusCode) {
         final String CRLF = "\r\n";
-        return "HTTP/1.1 " + responseCode + CRLF
+        return "HTTP/1.1 " + statusCode + CRLF
                 + // status line
                 "Content-Length: " + htmlContent.getBytes().length + CRLF
                 + //header
-                //"Location: /infor.html" + CRLF +
+//                "Location: " + location + CRLF +
                 CRLF
                 + htmlContent;
     }
-
+    private String getResponse(String htmlContent, int statusCode, String location) {
+        final String CRLF = "\r\n";
+        return "HTTP/1.1 " + statusCode + CRLF
+                + // status line
+                "Content-Length: " + htmlContent.getBytes().length + CRLF
+                + //header
+                "Location: " + location + CRLF +
+                CRLF
+                + htmlContent;
+    }
     //doc file index.html
     public String getIndex() {
-        String content = readFileHTML("src/index.html");
+        String content = readHTMLFile("index.html");
         return getResponse(content, 200);
 
     }
 
-    //doc file infor.html
     public String getRedirectedInformation() {
         //303
-        String content = readFileHTML("src/info.html");
-  
+        String content = readHTMLFile("info.html");
+
         //return getResponse(content,303);
         final String CRLF = "\r\n";
-        return "HTTP/1.1 303" + CRLF
-                + // status line
-                "Content-Length: " + content.getBytes().length + CRLF
-                + //header
-                "Location: /infor.html" + CRLF
-                + CRLF
-                + content;
+        return getResponse(content, 303, "/info.html");
     }
 
     public String getInformation() {
         //303
-        String content = readFileHTML("src/info.html");
+        String content = readHTMLFile("info.html");
         return getResponse(content, 200);
 
     }
@@ -58,7 +50,7 @@ public class ResponseHandler {
     //doc file 404.html
     public String getError() {
         //404
-        String content = readFileHTML("src/404.html");
+        String content = readHTMLFile("404.html");
         return getResponse(content, 404);
     }
 
@@ -66,20 +58,11 @@ public class ResponseHandler {
     
     public String getRedirectedError() {
 
-        String content = readFileHTML("src/404.html");
-       
-        final String CRLF = "\r\n";
-        return "HTTP/1.1 303" + CRLF
-                + // status line
-                "Content-Length: " + content.getBytes().length + CRLF
-                + //header
-                "Location: /404.html" + CRLF
-                + CRLF
-                + content;
+        String content = readHTMLFile("404.html");
+        return getResponse(content, 303, "/404.html");
     }
 
-    //doc file html
-    public String readFileHTML(String fileName) {
+    public String readHTMLFile(String fileName) {
         StringBuilder content = new StringBuilder();
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));

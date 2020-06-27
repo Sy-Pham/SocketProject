@@ -1,26 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Sy Pham
- */
 public class Client extends Thread {
 
     private final Socket client;
@@ -48,26 +34,20 @@ public class Client extends Thread {
     public void run() {
 
         try {
-            boolean isAuthenticated = false;
+
             while (client.isBound() && !client.isClosed()) {
                 boolean isGetMethod = getRequest();
-                String response = null;
+                String response;
                 RequestHandler requestHandler = new RequestHandler(information);
                 
                 if (isGetMethod) {
                     response = requestHandler.doGet();
                 }else{
                     response = requestHandler.doPost();
-                    isAuthenticated = true;
                 }
 
                 if (response != null) {
-                 
-                    try(PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, "UTF-8"))){
-                      
-                        writer.print(response);
-                        
-                    }
+                    output.write(response.getBytes());
                 }
 
             }
@@ -85,16 +65,13 @@ public class Client extends Thread {
         }
     }
 
-   
-
     boolean getRequest() throws IOException {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         boolean isGetMethod = false;
-        boolean isPostMethod = false;
         int length = 0;
 
-        String data = null;
+        String data;
         while ((data = reader.readLine()) != null) {
             System.out.println(data);
             String[] startLine = data.split(" /", 0);
@@ -120,7 +97,6 @@ public class Client extends Thread {
                         str.append((char) reader.read());
                     }
                     information = str.toString();
-                    System.out.println(information);
                 }
                 break;
             }
