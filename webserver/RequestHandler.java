@@ -11,18 +11,18 @@ public class RequestHandler {
     public String doGet() {
 
         String response = null;
-        String method = data.split(" ", 0)[1];
-        switch (method) {
+        String path = data.split(" ", 0)[1];
+        switch (path) {
             case "/index.html":
-                response = new ResponseHandler().getIndex();
+                response = ResponseHandler.getResponse("index.html",200, "index.html");
                 break;
             case "/info.html":
                 if (isAccess) {
-                    response = new ResponseHandler().getInformation();                   
+                    response = ResponseHandler.getResponse("info.html",200, "info.html");
                 }
                 break;
             case "/404.html":
-                response = new ResponseHandler().getError();
+                response = ResponseHandler.getResponse("404.html",200, "404.html");
                 break;
         }
         return response;
@@ -46,9 +46,9 @@ public class RequestHandler {
         isAuthenticated = login(username, password);
         if (isAuthenticated) {
             isAccess = true;
-            response = new ResponseHandler().getRedirectedInformation();
+            response = ResponseHandler.getResponse("info.html", 303, "info.html");
         } else {
-            response = new ResponseHandler().getRedirectedError();
+            response = ResponseHandler.getResponse("404.html", 303, "404.html");
         }
         return response;
     }

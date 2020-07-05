@@ -10,19 +10,17 @@ import java.util.logging.Logger;
 public class Client extends Thread {
 
     private final Socket client;
-    private InputStream input = null;
-    private OutputStream output = null;
+    private InputStream input;
+    private OutputStream output;
+    private BufferedReader reader;
     private String information;
 
     public Client(Socket client) {
         this.client = client;
-        if (this.client != null) {
-            System.out.print( client.getPort() + " Connected successfully\n");
-        } else {
-            return;
-        }
+        
         try {
             input = client.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(input));
             output = client.getOutputStream();
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,11 +50,14 @@ public class Client extends Thread {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             System.out.printf("port %d Disconnect\n", client.getPort());
             try {
+                input.close();
+                reader.close();
+                output.close();
                 client.close();
             } catch (IOException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -67,7 +68,7 @@ public class Client extends Thread {
 
     boolean getRequest() throws IOException {
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        
         boolean isGetMethod = false;
         int length = 0;
 
@@ -102,7 +103,8 @@ public class Client extends Thread {
             }
 
         }
-
+        
+        
         return isGetMethod;
     }
 

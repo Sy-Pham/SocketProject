@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Server extends Thread {
-    private static final int port = 9000;
+    private static final int port = 80;
     private static final String address = "localhost";
     private ServerSocket server;
 
@@ -31,8 +31,8 @@ public class Server extends Thread {
                 newClient.start();
             }
             
-        } catch(Exception e){
-            e.printStackTrace();
+        } catch(IOException ex){
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
             if(server != null)
