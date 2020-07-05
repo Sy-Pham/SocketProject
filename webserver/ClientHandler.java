@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Client extends Thread {
+public class ClientHandler extends Thread {
 
     private final Socket client;
     private InputStream input;
@@ -15,7 +15,7 @@ public class Client extends Thread {
     private BufferedReader reader;
     private String information;
 
-    public Client(Socket client) {
+    public ClientHandler(Socket client) {
         this.client = client;
         
         try {
@@ -23,7 +23,7 @@ public class Client extends Thread {
             reader = new BufferedReader(new InputStreamReader(input));
             output = client.getOutputStream();
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -51,7 +51,7 @@ public class Client extends Thread {
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             System.out.printf("port %d Disconnect\n", client.getPort());
             try {
@@ -60,7 +60,7 @@ public class Client extends Thread {
                 output.close();
                 client.close();
             } catch (IOException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }

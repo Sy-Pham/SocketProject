@@ -31,7 +31,7 @@ public class ResponseHandler {
                 line = in.readLine();
             }
         } catch (IOException ex) {
-             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return content.toString();
     }

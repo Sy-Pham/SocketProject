@@ -27,7 +27,7 @@ public class Server extends Thread {
                 
                 System.out.println(String.format("client whose port is %d has been connected", client.getPort()));
                 
-                Thread newClient = new Client(client);
+                Thread newClient = new ClientHandler(client);
                 newClient.start();
             }
             
