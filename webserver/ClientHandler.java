@@ -45,7 +45,7 @@ public class ClientHandler extends Thread {
                 }
 
                 if (response != null) {
-                    output.write(response.getBytes());
+                    output.write(response.getBytes("utf-8"));
                 }
 
             }
